@@ -7,10 +7,16 @@ var newMap;
 document.addEventListener('DOMContentLoaded', (event) => {  
   initMap();
 });
-
 /**
  * Initialize leaflet map
  */
+
+
+/**
+* Set padding on main element when window is resized.
+*/
+window.addEventListener('resize', (e) => { setMainPadding(); }, false);
+ 
 initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
@@ -31,6 +37,7 @@ initMap = () => {
       }).addTo(newMap);
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.newMap);
+      setMainPadding();
     }
   });
 }  
@@ -87,7 +94,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
+  image.className = 'restaurant-img';
+  image.setAttribute("alt", `${restaurant.name} Interior`);
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
@@ -107,17 +115,22 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
   for (let key in operatingHours) {
-    const row = document.createElement('tr');
+    const operatingHoursStrings = operatingHours[key].split(',');
 
-    const day = document.createElement('td');
-    day.innerHTML = key;
-    row.appendChild(day);
+    operatingHoursStrings.map((operatingHoursString, index) => {
+      const row = document.createElement('tr');
 
-    const time = document.createElement('td');
-    time.innerHTML = operatingHours[key];
-    row.appendChild(time);
+      const day = document.createElement('td');
+      if (index === 0) day.innerHTML = key;
+      row.appendChild(day);
 
-    hours.appendChild(row);
+      const time = document.createElement('td');
+
+      time.innerHTML = `${operatingHoursString}${index === 0 && operatingHoursStrings.length > 1 ? ',' : ''}`;
+      row.appendChild(time);
+
+      hours.appendChild(row);
+    })
   }
 }
 
@@ -192,3 +205,16 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+/**
+ * Set padding on main element to account for nav height;
+ */
+
+ setMainPadding = () => {
+    const headerHeight = `${document.querySelector('header').offsetHeight}px`;
+    const main = document.querySelector('#maincontent');
+    const map = document.querySelector('#map-container');
+
+    main.style.paddingTop = headerHeight;
+    map.style.top = headerHeight;
+ }
