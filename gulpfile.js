@@ -5,7 +5,7 @@ const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const browserSync = require('browser-sync').create();
 const eslint = require('gulp-eslint');
-const concat = require('gulp-concat');
+/* const concat = require('gulp-concat'); */
 const uglify = require('gulp-uglifyes');
 const babel = require('gulp-babel');
 const sourcemaps = require('gulp-sourcemaps');
@@ -84,7 +84,7 @@ gulp.task('scripts', () => {
   gulp
     .src('src/js/**/*.js')
     .pipe(babel())
-    .pipe(concat('all.js'))
+    /* .pipe(concat('all.js')) */
     .pipe(gulp.dest('dist/js'));
 });
 
@@ -93,7 +93,7 @@ gulp.task('scripts-dist', () => {
     .src('src/js/**/*.js')
     .pipe(sourcemaps.init())
     .pipe(babel())
-    .pipe(concat('all.js'))
+    /* .pipe(concat('all.js')) */
     .pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('dist/js'));
