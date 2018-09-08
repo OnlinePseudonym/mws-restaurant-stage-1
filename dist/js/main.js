@@ -1,14 +1,5 @@
 /* eslint-disable */
 
-console.log('hello');
-fetch('http://localhost:1337/restaurants').then(res => {
-  return res.json();
-}).then(res => {
-  console.log(res);
-}).catch(err => {
-  console.log('fucked up...', err);
-});
-
 let restaurants, neighborhoods, cuisines;
 var newMap;
 var markers = [];
@@ -89,12 +80,19 @@ initMap = () => {
     zoom: 12,
     scrollWheelZoom: false
   });
-  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: 'pk.eyJ1Ijoib25saW5lcHNldWRvbnltIiwiYSI6ImNqa2MzN2Q4eDBoZDEzcG55cjM3dGRpbTIifQ.nPLUNNjM83m1qtI2pEbYWg',
-    maxZoom: 18,
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' + '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    id: 'mapbox.streets'
-  }).addTo(newMap);
+  L.tileLayer(
+    'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}',
+    {
+      mapboxToken:
+        'pk.eyJ1Ijoib25saW5lcHNldWRvbnltIiwiYSI6ImNqa2MzN2Q4eDBoZDEzcG55cjM3dGRpbTIifQ.nPLUNNjM83m1qtI2pEbYWg',
+      maxZoom: 18,
+      attribution:
+        'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      id: 'mapbox.streets'
+    }
+  ).addTo(newMap);
   updateRestaurants();
 };
 /* window.initMap = () => {
@@ -123,15 +121,19 @@ updateRestaurants = () => {
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
-    if (error) {
-      // Got an error!
-      console.error(error);
-    } else {
-      resetRestaurants(restaurants);
-      fillRestaurantsHTML();
+  DBHelper.fetchRestaurantByCuisineAndNeighborhood(
+    cuisine,
+    neighborhood,
+    (error, restaurants) => {
+      if (error) {
+        // Got an error!
+        console.error(error);
+      } else {
+        resetRestaurants(restaurants);
+        fillRestaurantsHTML();
+      }
     }
-  });
+  );
 };
 
 /**
@@ -227,9 +229,12 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 registerServiceWorker = () => {
   if (!navigator.serviceWorker) return;
 
-  navigator.serviceWorker.register('/sw.js').then(res => {
-    console.log('Registered Service Worker!');
-  }).catch(err => {
-    console.log('Registration Failed ' + err);
-  });
+  navigator.serviceWorker
+    .register('/sw.js')
+    .then(res => {
+      console.log('Registered Service Worker!');
+    })
+    .catch(err => {
+      console.log('Registration Failed ' + err);
+    });
 };

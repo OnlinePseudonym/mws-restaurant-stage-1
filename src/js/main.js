@@ -1,17 +1,5 @@
 /* eslint-disable */
 
-console.log('hello');
-fetch('http://localhost:1337/restaurants')
-  .then(res => {
-    return res.json();
-  })
-  .then(res => {
-    console.log(res);
-  })
-  .catch(err => {
-    console.log('fucked up...', err);
-  });
-
 let restaurants, neighborhoods, cuisines;
 var newMap;
 var markers = [];

@@ -15,9 +15,13 @@ document.addEventListener('DOMContentLoaded', event => {
 /**
  * Set padding on main element when window is resized.
  */
-window.addEventListener('resize', e => {
-  setMainPadding();
-}, false);
+window.addEventListener(
+  'resize',
+  e => {
+    setMainPadding();
+  },
+  false
+);
 
 initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
@@ -30,12 +34,19 @@ initMap = () => {
         zoom: 16,
         scrollWheelZoom: false
       });
-      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-        mapboxToken: 'pk.eyJ1Ijoib25saW5lcHNldWRvbnltIiwiYSI6ImNqa2MzN2Q4eDBoZDEzcG55cjM3dGRpbTIifQ.nPLUNNjM83m1qtI2pEbYWg',
-        maxZoom: 18,
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' + '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' + 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        id: 'mapbox.streets'
-      }).addTo(newMap);
+      L.tileLayer(
+        'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}',
+        {
+          mapboxToken:
+            'pk.eyJ1Ijoib25saW5lcHNldWRvbnltIiwiYSI6ImNqa2MzN2Q4eDBoZDEzcG55cjM3dGRpbTIifQ.nPLUNNjM83m1qtI2pEbYWg',
+          maxZoom: 18,
+          attribution:
+            'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          id: 'mapbox.streets'
+        }
+      ).addTo(newMap);
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.newMap);
       setMainPadding();
@@ -115,7 +126,9 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 /**
  * Create restaurant operating hours HTML table and add it to the webpage.
  */
-fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
+fillRestaurantHoursHTML = (
+  operatingHours = self.restaurant.operating_hours
+) => {
   const hours = document.getElementById('restaurant-hours');
   for (let key in operatingHours) {
     const operatingHoursStrings = operatingHours[key].split(',');
@@ -129,7 +142,9 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 
       const time = document.createElement('td');
 
-      time.innerHTML = `${operatingHoursString}${index === 0 && operatingHoursStrings.length > 1 ? ',' : ''}`;
+      time.innerHTML = `${operatingHoursString}${
+        index === 0 && operatingHoursStrings.length > 1 ? ',' : ''
+      }`;
       row.appendChild(time);
 
       hours.appendChild(row);
@@ -200,7 +215,7 @@ getParameterByName = (name, url) => {
   if (!url) url = window.location.href;
   name = name.replace(/[\[\]]/g, '\\$&');
   const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`),
-        results = regex.exec(url);
+    results = regex.exec(url);
   if (!results) return null;
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));

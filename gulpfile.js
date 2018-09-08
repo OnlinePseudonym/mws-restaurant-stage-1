@@ -57,8 +57,8 @@ gulp.task('optimize', () => {
 });
 
 gulp.task('copy-html', () => {
-  gulp.src('.src/index.html').pipe(gulp.dest('./dist'));
-  gulp.src('.src/restaurant.html').pipe(gulp.dest('./dist'));
+  gulp.src('src/index.html').pipe(gulp.dest('./dist'));
+  gulp.src('src/restaurant.html').pipe(gulp.dest('./dist'));
 });
 /* gulp.task('copy-images', () => {
   gulp.src('src/img/*').pipe(gulp.dest('dist/img'));
@@ -66,7 +66,7 @@ gulp.task('copy-html', () => {
 
 gulp.task('styles', () => {
   gulp
-    .src('sass/**/*.scss')
+    .src('src/sass/**/*.scss')
     .pipe(
       sass({
         outputStyle: 'compressed'
@@ -83,7 +83,11 @@ gulp.task('styles', () => {
 gulp.task('scripts', () => {
   gulp
     .src('src/js/**/*.js')
-    .pipe(babel())
+    /* .pipe(
+      babel({
+        presets: ['env']
+      })
+    ) */
     /* .pipe(concat('all.js')) */
     .pipe(gulp.dest('dist/js'));
 });
